@@ -1,4 +1,9 @@
-this project servers 3 purposes:
+this project serves 3 purposes:
  - use haskell
  - practice go
  - explore fair division as a heuristic
+
+Style:
+I use the yi editor, which replaces 2 character operators with a
+unicode character and a space, so I will be dropping the space between
+such operators and the next symbol.
