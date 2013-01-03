@@ -47,9 +47,9 @@ impl Board{
         Board(rows)
     }
 
-    fn print(&self){
+    fn print(){
         let mut i = 0, j = 0;
-        for each(**self) |l| {
+        for each(*self) |l| {
             io::print(fmt!(" %d ", i));
             j = 0;
 
