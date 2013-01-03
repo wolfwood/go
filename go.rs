@@ -4,9 +4,13 @@ use to_str::ToStr;
 use io::*;
 
 // --- types ---
+enum Player{
+    Opaque,
+    Transparent
+}
+
 enum Liberty{
-    Black,
-    White,
+    Occupied (Player),
     Empty
 }
 
@@ -14,11 +18,19 @@ enum Board = ~[~[Liberty]];
 
 
 // --- implementations ---
+impl Player{
+    fn flip(&mut self){
+        *self = match *self{
+            Opaque => {Transparent}
+            Transparent => {Opaque}
+        }
+    }
+}
 impl Liberty: ToStr{
     pure fn to_str() -> ~str{
         match self{
-            Black => {~" *"}
-            White => {~" O"}
+            Occupied (Opaque) => {~" *"}
+            Occupied (Transparent) => {~" O"}
             Empty => {~" ."}
         }
     }
@@ -66,18 +78,22 @@ impl Board{
 // --- the beef ---
 fn main(){
     let rows = 9;
-    let b = Board::new(rows);
+    let mut b = Board::new(rows);
+    let mut current_player = Opaque;
 
     loop{
         b.print();
 
-        print("> ");
+        print(fmt!("\n%?'s move > ", current_player));
         let input = io::stdin().read_line().trim();
 
         match input {
-            ~"?"|~"h"|~"help" => println(" enter <row, column> coordinate of play, or q to quit\n"),
-            ~"q"|~"Q"|~"quit" => break,
-            _ => loop
+            ~"?"|~"h"|~"help" => {println(" enter <row, column> coordinate of play, or q to quit\n"); loop}
+            ~"q"|~"Q"|~"quit" => {break}
+            ~"1 1" => {println("played\n")}
+            _ => {loop}
         }
+
+        current_player.flip();
     }
 }
