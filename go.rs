@@ -71,10 +71,11 @@ fn main(){
     loop{
         b.print();
 
+        print("> ");
         let input = io::stdin().read_line().trim();
 
         match input {
-            ~"?"|~"h"|~"help" => println(" enter [row, column] coordinate of play, or q to quit\n"),
+            ~"?"|~"h"|~"help" => println(" enter <row, column> coordinate of play, or q to quit\n"),
             ~"q"|~"Q"|~"quit" => break,
             _ => loop
         }
