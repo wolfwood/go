@@ -2,6 +2,8 @@
 use vec::*;
 use to_str::ToStr;
 use io::*;
+use str::split_char_nonempty;
+use int::from_str;
 
 // --- types ---
 enum Player{
@@ -47,6 +49,17 @@ impl Board{
         Board(rows)
     }
 
+    fn play(&mut self, p: Player, x: uint, y: uint) -> bool{
+        match self[x][y] {
+            Empty => {}
+            Occupied (_) => {return false}
+        }
+
+        self[x][y] = Occupied (p);
+
+        true
+    }
+
     fn print(){
         let mut i = 0, j = 0;
         for each(*self) |l| {
@@ -88,11 +101,27 @@ fn main(){
         let input = io::stdin().read_line().trim();
 
         match input {
-            ~"?"|~"h"|~"help" => {println(" enter <row, column> coordinate of play, or q to quit\n"); loop}
+            ~"?"|~"h"|~"help" => {println(" enter (row, column) coordinate of play, (h)elp or (q)uit\n"); loop}
             ~"q"|~"Q"|~"quit" => {break}
-            ~"1 1" => {println("played\n")}
-            _ => {loop}
+            _ => {}
         }
+
+        let inputs = split_char_nonempty(input, ' ');
+
+        if inputs.len() != 2 {loop}
+
+        let x, y;
+        match int::from_str(inputs[0]){
+            Some (xx) => {x = xx}
+            None => {loop}
+        }
+
+        match int::from_str(inputs[1]){
+            Some (yy) => {y = yy}
+            None => {loop}
+        }
+
+        if !(b.play(current_player, x as uint, y as uint)) {loop}
 
         current_player.flip();
     }
