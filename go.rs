@@ -1,6 +1,7 @@
 // --- imports ---
 use vec::*;
 use to_str::ToStr;
+use io::*;
 
 // --- types ---
 enum Liberty{
@@ -64,15 +65,18 @@ impl Board{
 
 // --- the beef ---
 fn main(){
-    //let rows = 9;
-    let mut board = [[ Empty, ..9 ], ..9 ];
+    let rows = 9;
+    let b = Board::new(rows);
 
-    for each_mut(board) |l| {
-        for each_mut(*l) |k| {
-            *k = White;
+    loop{
+        b.print();
+
+        let input = io::stdin().read_line().trim();
+
+        match input {
+            ~"?"|~"h"|~"help" => println(" enter [row, column] coordinate of play, or q to quit\n"),
+            ~"q"|~"Q"|~"quit" => break,
+            _ => loop
         }
     }
-
-    let b = Board::new(9);
-    b.print();
 }
