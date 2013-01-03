@@ -1,4 +1,5 @@
 use vec::*;
+use to_str::ToStr;
 
 enum Liberty{
     Black,
@@ -6,15 +7,17 @@ enum Liberty{
     Empty
 }
 
-impl Liberty{
-    fn show(&self){
-        io::print(match *self{
-            Black => {" *"}
-            White => {" O"}
-            Empty => {" ."}
-        })
+impl Liberty: ToStr{
+    pure fn to_str() -> ~str{
+        match self{
+            Black => {~" *"}
+            White => {~" O"}
+            Empty => {~" ."}
+        }
     }
 }
+
+
 
 fn main(){
     //let rows = 9;
@@ -29,7 +32,7 @@ fn main(){
 
     for each(board) |l| {
         for each(*l) |k| {
-            k.show();
+            io::print(k.to_str());
         }
 
         io::println("");
