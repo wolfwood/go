@@ -97,7 +97,7 @@ fn main(){
     loop{
         b.print();
 
-        print(fmt!("\n%?'s move > ", current_player));
+        print(fmt!("\n%?'s move%s > ", current_player, (Occupied (current_player)).to_str() ));
         let input = io::stdin().read_line().trim();
 
         match input {
@@ -121,7 +121,7 @@ fn main(){
             None => {loop}
         }
 
-        if !(b.play(current_player, x as uint, y as uint)) {loop}
+        if !b.play(current_player, x as uint, y as uint) {loop}
 
         current_player.flip();
     }
