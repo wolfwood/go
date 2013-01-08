@@ -101,7 +101,7 @@ fn main(){
         let input = io::stdin().read_line().trim();
 
         match input {
-            ~"?"|~"h"|~"help" => {println(" enter (row, column) coordinate of play, (h)elp or (q)uit\n"); loop}
+            ~"?"|~"h"|~"help" => {println(" enter (row column) coordinate of play, (h)elp or (q)uit\n"); loop}
             ~"q"|~"Q"|~"quit" => {break}
             _ => {}
         }
