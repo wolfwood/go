@@ -11,13 +11,17 @@ enum Player{
     Transparent
 }
 
+struct Colony{
+    p: Player,
+    liberties: uint
+}
+
 enum Liberty{
-    Occupied (Player),
+    Occupied (Player, ~mut Colony),
     Empty
 }
 
 enum Board = ~[~[Liberty]];
-
 
 // --- implementations ---
 impl Player{
@@ -28,11 +32,20 @@ impl Player{
         }
     }
 }
+
+impl Colony{
+    static fn new(p: Player, num_liberties: uint) -> ~mut Colony{
+        let c = ~mut Colony {p:p, liberties:num_liberties};
+
+        c
+    }
+}
+
 impl Liberty: ToStr{
     pure fn to_str() -> ~str{
         match self{
-            Occupied (Opaque) => {~" *"}
-            Occupied (Transparent) => {~" O"}
+            Occupied (Opaque, _) => {~" *"}
+            Occupied (Transparent, _) => {~" O"}
             Empty => {~" ."}
         }
     }
@@ -52,10 +65,13 @@ impl Board{
     fn play(&mut self, p: Player, x: uint, y: uint) -> bool{
         match self[x][y] {
             Empty => {}
-            Occupied (_) => {return false}
+            Occupied (_, _) => {return false}
         }
 
-        self[x][y] = Occupied (p);
+        let libs = 4;
+        let c = Colony::new(p, libs);
+
+        self[x][y] = Occupied(p, c);
 
         true
     }
@@ -97,7 +113,7 @@ fn main(){
     loop{
         b.print();
 
-        print(fmt!("\n%?'s move%s > ", current_player, (Occupied (current_player)).to_str() ));
+        print(fmt!("\n%?'s move > ", current_player));
         let input = io::stdin().read_line().trim();
 
         match input {
