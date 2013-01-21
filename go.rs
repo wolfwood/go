@@ -17,7 +17,7 @@ struct Colony{
 }
 
 enum Liberty{
-    Occupied (Player, ~mut Colony),
+    Occupied (Player, @mut Colony),
     Empty
 }
 
@@ -34,8 +34,8 @@ impl Player{
 }
 
 impl Colony{
-    static fn new(p: Player, num_liberties: uint) -> ~mut Colony{
-        let c = ~mut Colony {p:p, liberties:num_liberties};
+    static fn new(p: Player, num_liberties: uint) -> @mut Colony{
+        let c = @mut Colony {p:p, liberties:num_liberties};
 
         c
     }
